@@ -3,7 +3,7 @@
 </script>
 
 <template>
-个人信息
+编辑资料
 </template>
 
 <style scoped>
