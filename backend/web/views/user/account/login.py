@@ -32,7 +32,7 @@ class LoginView(APIView):
                 })
                 response.set_cookie(
                     key='refresh_token',
-                    value=str(refresh.access_token),
+                    value=str(refresh),
                     httponly=True,
                     samesite='Lax',
                     secure=True,
