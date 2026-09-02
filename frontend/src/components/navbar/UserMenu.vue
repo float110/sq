@@ -45,7 +45,7 @@ async function handleLogout(){
               <img alt="Tailwind-CSS-Avatar-component" :src="user.photo"/>
             </div>
           </div>
-          <span class="text-base font-bold line-clamp-1">{{user.username}}</span>
+          <span class="text-base font-bold line-clamp-1 break-all">{{user.username}}</span>
         </RouterLink>
       </li>
       <li>
