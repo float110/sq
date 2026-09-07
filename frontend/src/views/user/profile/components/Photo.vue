@@ -1,0 +1,75 @@
+<script setup>
+import {nextTick, ref, useTemplateRef, watch} from "vue";
+import CameraIcon from "@/views/user/profile/components/Icon/CameraIcon.vue";
+import Croppie from 'croppie'
+import 'croppie/croppie.css'
+
+const props = defineProps(['photo'])
+const myPhoto = ref(props.photo)
+
+watch(()=> props.photo,newVal=>{
+  myPhoto.value = newVal
+})
+const fileInputRef = useTemplateRef("file-input-ref")
+const modalRef = useTemplateRef('modal-ref')
+const croppieRef = useTemplateRef("croppie-ref")
+let croppie = null
+
+
+async function openModal(){
+  modalRef.value.showModal()
+  await nextTick()
+  if (!croppie) {
+  croppie = new Croppie(croppieRef.value, {  // 创建croppie对象
+    viewport: {width: 200, height: 200, type: 'square'},
+    boundary: {width: 300, height: 300},
+    enableOrientation: true,
+    enforceBoundary: true,
+  })
+}
+
+}
+function onFileChange(e){
+  const file = e.target.files[0]
+  e.target.value = ''
+  if(!file) return
+  const reader = new FileReader()
+  reader.onload = () =>{
+    openModal(reader.result)
+  }
+  reader.readAsDataURL(file)
+}
+
+</script>
+
+<template>
+  <div class="flex justify-center">
+    <div class="avatar">
+      <div class="w-28 rounded-full">
+        <img :src="myPhoto" alt="">
+      </div>
+      <div @click="fileInputRef.click()" class="absolute left-0 top-0 w-28 h-28 flex justify-center items-center bg-black/20 rounded-full cursor-pointer">
+        <camera-icon/>
+      </div>
+      <input ref="file-input-ref" type="file" accept="image/*" class="hidden" @change="onFileChange">
+    </div>
+  </div>
+
+  <dialog ref="modal-ref" class="modal">
+    <div class="modal-box">
+      <button @click="modalRef.close()" class="btn btn-circle btn-sm btn-ghost absolute right-2 top-2">✕</button>
+      <div ref="croppie-ref" class="flex flex-col justify-center my-4"></div>
+    </div>
+    <div class="modal-action">
+      <button @click="modalRef.close()" class="btn">取消</button>
+      <button class="btn btn-neutral">确定</button>
+    </div>
+  </dialog>
+
+
+
+</template>
+
+<style scoped>
+
+</style>
