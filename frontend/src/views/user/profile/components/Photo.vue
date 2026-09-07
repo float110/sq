@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, ref, useTemplateRef, watch} from "vue";
+import {nextTick, onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/components/Icon/CameraIcon.vue";
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
@@ -16,19 +16,31 @@ const croppieRef = useTemplateRef("croppie-ref")
 let croppie = null
 
 
-async function openModal(){
+async function openModal(photo) {
   modalRef.value.showModal()
   await nextTick()
   if (!croppie) {
-  croppie = new Croppie(croppieRef.value, {  // 创建croppie对象
-    viewport: {width: 200, height: 200, type: 'square'},
-    boundary: {width: 300, height: 300},
-    enableOrientation: true,
-    enforceBoundary: true,
+    croppie = new Croppie(croppieRef.value, {  // 创建croppie对象
+      viewport: {width: 200, height: 200, type: 'square'},
+      boundary: {width: 300, height: 300},
+      enableOrientation: true,
+      enforceBoundary: true,
+    })
+  }
+  croppie.bind({  // 绑定裁剪图片
+    url: photo,
   })
 }
 
+async function crop() {
+  if (!croppie) return
+  myPhoto.value = await croppie.result({  // 获取裁剪结果
+    type: 'base64',
+    size: 'viewport',
+  })
+  modalRef.value.close()
 }
+
 function onFileChange(e){
   const file = e.target.files[0]
   e.target.value = ''
@@ -39,7 +51,13 @@ function onFileChange(e){
   }
   reader.readAsDataURL(file)
 }
+onBeforeUnmount(()=>{
+  croppie?.destroy()
+})
 
+defineExpose({
+  myPhoto,
+})
 </script>
 
 <template>
@@ -56,13 +74,13 @@ function onFileChange(e){
   </div>
 
   <dialog ref="modal-ref" class="modal">
-    <div class="modal-box">
+    <div class="modal-box transition-none">
       <button @click="modalRef.close()" class="btn btn-circle btn-sm btn-ghost absolute right-2 top-2">✕</button>
       <div ref="croppie-ref" class="flex flex-col justify-center my-4"></div>
-    </div>
-    <div class="modal-action">
-      <button @click="modalRef.close()" class="btn">取消</button>
-      <button class="btn btn-neutral">确定</button>
+      <div class="modal-action">
+        <button @click="modalRef.close()" class="btn">取消</button>
+        <button @click="crop" class="btn btn-neutral">确定</button>
+      </div>
     </div>
   </dialog>
 
