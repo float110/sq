@@ -17,7 +17,7 @@ const errorMessage = ref('')
 async function handleUpdate() {
   const photo = photoRef.value.myPhoto
   const username = usernameRef.value.myUsername.trim()
-  const profile = profileRef.value
+  const profile = profileRef.value.myProfile.trim()
   errorMessage.value = ''
   if (!photo) {
     errorMessage.value = '头像不能为空'
