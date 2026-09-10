@@ -14,8 +14,8 @@ const modalRef = useTemplateRef('modal-ref')
 const croppieRef = useTemplateRef("croppie-ref")
 let croppie = null
 
-watch(() => props.photo, newVal => {
-  myPhoto.value = newVal
+watch(() => props.backgroundImage, newVal => {
+  myBackgroundImage.value = newVal
 })
 
 async function openModal(photo) {

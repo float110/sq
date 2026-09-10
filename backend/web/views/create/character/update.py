@@ -11,7 +11,7 @@ class UpdateCharacterView(APIView):
     def post(self, request):
         try:
             character_id = request.data.get('character_id')
-            character = Character.objects.get(id=character_id,authon__user=request.user)
+            character = Character.objects.get(id=character_id,author__user=request.user)
             name = request.data.get('name').strip()
             profile = request.data.get('profile').strip()[:10000]
             photo = request.FILES.get('photo',None)
