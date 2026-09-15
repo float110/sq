@@ -20,7 +20,6 @@ async function handleRemoveCharacter(){
     }
 
   }catch (err){
-    console.log(err)
   }
 }
 

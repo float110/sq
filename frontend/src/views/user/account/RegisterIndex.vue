@@ -37,8 +37,7 @@ async function handleRegister(){
       }
 
 
-    }catch (error){
-      console.log(error)
+    }catch (err){
     }
   }
 }
