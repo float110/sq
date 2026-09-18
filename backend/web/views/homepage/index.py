@@ -26,7 +26,7 @@ class HomepageIndexView(APIView):
                     'name': character.name,
                     'profile': character.profile,
                     'photo': character.photo.url,
-                    'backgroundImage': character.background_image.url,
+                    'background_image': character.background_image.url,
                     'author': {
                         'user_id': author.id,
                         'username': author.user.username,

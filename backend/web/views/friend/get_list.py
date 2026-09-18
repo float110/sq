@@ -25,11 +25,11 @@ class GetListFriendsView(APIView):
                         'profile': character.profile,
                         'photo': character.photo.url,
                         'background_image': character.background_image.url,
-                    },
-                    'author': {
-                        'user_id': author.id,
-                        'username': author.user.username,
-                        'photo': author.photo.url,
+                        'author': {
+                            'user_id': author.id,
+                            'username': author.user.username,
+                            'photo': author.photo.url,
+                        }
                     }
                 })
             return Response({
