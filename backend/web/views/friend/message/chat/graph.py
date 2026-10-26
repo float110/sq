@@ -1,5 +1,5 @@
 import os
-from pprint import pprint
+
 from typing import TypedDict, Annotated, Sequence
 
 from django.utils.timezone import localtime, now
@@ -41,7 +41,7 @@ class ChatGraph:
         tools = [get_time]
 
         llm = ChatOpenAI(
-            model='qwen3.7-flash-2026-07-15',
+            model='deepseek-v4-flash-0731',
             openai_api_key=os.getenv('API_KEY'),
             openai_api_base=os.getenv('API_BASE'),
             streaming=True,  # 流式输出,
@@ -56,7 +56,6 @@ class ChatGraph:
             messages: Annotated[Sequence[BaseMessage], add_messages]
 
         def model_call(state: AgentState) -> AgentState:
-            pprint(state)
             res = llm.invoke(state['messages'])
             return {'messages': [res]}
 

@@ -45,6 +45,10 @@ function handleAddToLastMessage(delta) {
   ChatHistoryRef.value.scrollToBottom()
 }
 
+function handleClose(){
+  ModalRef.value.close()
+  inputRef.value.close()
+}
 defineExpose({
   showModal,
 })
@@ -54,7 +58,7 @@ defineExpose({
 <template>
   <dialog ref="modal-ref" class="modal">
     <div class="modal-box w-90 h-150" :style="modalStyle">
-      <button @click="ModalRef.close()" class="btn btn-sm btn-circle btn-ghost bg-transparent absolute top-1 right-1">
+      <button @click="handleClose" class="btn btn-sm btn-circle btn-ghost bg-transparent absolute top-1 right-1">
         ✕
       </button>
       <ChatHistory

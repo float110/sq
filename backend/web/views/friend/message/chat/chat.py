@@ -1,5 +1,5 @@
 import json
-from pprint import pprint
+
 
 from django.http import StreamingHttpResponse
 from langchain_core.messages import HumanMessage, BaseMessageChunk, AIMessage, SystemMessage
@@ -65,7 +65,7 @@ class MessageChatView(APIView):
         }
         inputs = add_system_prompt(inputs, friend)
         inputs = add_recent_messages(inputs, friend)
-        #pprint(inputs)
+
 
         def event_stream():
             full_output = ''
