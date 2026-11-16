@@ -46,7 +46,6 @@ function handleAddToLastMessage(delta) {
 }
 
 function handleClose(){
-  ModalRef.value.close()
   inputRef.value.close()
 }
 defineExpose({
@@ -56,9 +55,9 @@ defineExpose({
 </script>
 
 <template>
-  <dialog ref="modal-ref" class="modal">
+  <dialog ref="modal-ref" class="modal" @close="handleClose">
     <div class="modal-box w-90 h-150" :style="modalStyle">
-      <button @click="handleClose" class="btn btn-sm btn-circle btn-ghost bg-transparent absolute top-1 right-1">
+      <button @click="  ModalRef.close()" class="btn btn-sm btn-circle btn-ghost bg-transparent absolute top-1 right-1">
         ✕
       </button>
       <ChatHistory
